@@ -127,6 +127,7 @@ let App = React.createClass({
       padding: 20,
       showAxes: false,
       longAxes: false,
+      axesLength: 0.8,
       axesOverlayTransparency: 1,
       axesRotation: 0,
     };
@@ -210,20 +211,20 @@ let App = React.createClass({
             <div className={LABEL.className} style={{
               opacity: this.state.showAxes ? 1 : 0.5,
             }}>
-              overlay
+              length
             </div>
             <input type='range' className={RANGE.className}
               style={{
                 opacity: this.state.showAxes ? 1 : 0.5,
               }}
               disabled={this.state.showAxes ? false : 'disabled'}
-              min={0}
-              max={1}
+              min={-2}
+              max={4}
               step={0.01}
-              value={this.state.axesOverlayTransparency}
+              value={this.state.axesLength}
               onChange={(e) => {
                 this.setState({
-                  axesOverlayTransparency: parseFloat(e.target.value),
+                  axesLength: parseFloat(e.target.value),
                 });
               }}
             />
@@ -248,6 +249,28 @@ let App = React.createClass({
                 });
               }}
             />
+
+            <div className={LABEL.className} style={{
+              opacity: this.state.showAxes ? 1 : 0.5,
+            }}>
+              overlay
+            </div>
+            <input type='range' className={RANGE.className}
+              style={{
+                opacity: this.state.showAxes ? 1 : 0.5,
+              }}
+              disabled={this.state.showAxes ? false : 'disabled'}
+              min={0}
+              max={1}
+              step={0.01}
+              value={this.state.axesOverlayTransparency}
+              onChange={(e) => {
+                this.setState({
+                  axesOverlayTransparency: parseFloat(e.target.value),
+                });
+              }}
+            />
+
           </div>
 
           <PlanetGraphic style={{
