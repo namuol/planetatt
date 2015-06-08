@@ -28,5 +28,7 @@ window.addEventListener('load', () => {
     , document.getElementById('main'));
   });
 
+  page.base(process.env.BASEPATH);
+
   page.start();
 });
