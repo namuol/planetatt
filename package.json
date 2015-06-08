@@ -1,7 +1,7 @@
 {
   "name": "planetatt",
-  "version": "0.0.0",
-  "description": "tool to aid the design of a simple solar-system diagram tattoo",
+  "version": "0.0.1",
+  "description": "web tool to aid the design of a simple solar-system diagram tattoo",
   "main": "./src/main.jsx",
   "scripts": {
     "start": "node server.js",
@@ -18,6 +18,7 @@
     "immutable": "^3.7.3",
     "node-libs-browser": "^0.5.2",
     "page": "^1.6.3",
+    "qs": "^3.1.0",
     "react": "^0.13.3",
     "react-free-style": "^0.5.1",
     "react-hot-loader": "^1.2.7",

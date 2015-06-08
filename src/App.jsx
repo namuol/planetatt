@@ -5,6 +5,9 @@ import Style from './Style';
 import theme from './theme';
 import PlanetGraphic from './PlanetGraphic';
 
+import page from 'page';
+import qs from 'qs';
+
 let WRAPPER = Style.registerStyle({
   width: '100vmin',
   height: '100vmin',
@@ -19,10 +22,10 @@ let STYLE = Style.registerStyle({
   backgroundColor: theme.bgColor,
   width: '100%',
   height: '100%',
+  textAlign: 'left',
 });
 
 let LABEL = Style.registerStyle({
-  textAlign: 'center',
   fontSize: '3.8vmin',
   textTransform: 'lowercase',
 });
@@ -37,12 +40,12 @@ let EDITOR = Style.registerStyle({
 
 let RANGE = Style.registerStyle({
   height: '7vmin',
-  padding: '0 5vmin',
+  // padding: '0 5vmin',
   outline: 'none',
   WebkitAppearance: 'none',
   width: '100%',
   marginBottom: '1vmin',
-
+  cursor: 'pointer',
   '&::WebkitSliderThumb': {
     WebkitAppearance: 'none',
     border: `0.3vmin solid ${theme.color}`,
@@ -55,19 +58,87 @@ let RANGE = Style.registerStyle({
 
   '&::WebkitSliderRunnableTrack': {
     width: '100%',
-    height: '0.25vmin',
+    height: '0.3vmin',
+    border: `0.15vmin solid ${theme.color}`,
     backgroundColor: theme.color,
     borderRadius: '0.15vmin',
   },
 });
 
+let CHECKBOX = Style.registerStyle({
+  margin: 0,
+  width: '100%',
+  height: '7vmin',
+  outline: 'none',
+  WebkitAppearance: 'none',
+  marginBottom: '1vmin',
+  cursor: 'pointer',
+  display: 'flex',
+  alignItems: 'center',
+  // justifyContent: 'center',
+  position: 'relative',
+
+  '&:before': {
+    content: '" "',
+    fontFamily: theme.fontFamily,
+    fontWeight: 600,
+    fontSize: '2vmin',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    width: '8vmin',
+    height: '4vmin',
+    borderRadius: '6vmin',
+    border: `0.3vmin solid ${theme.color}`,
+    transition: 'background 250ms',
+    margin: 'auto',
+    top: 0,
+    bottom: 0,
+  },
+
+  '&:after': {
+    content: '""',
+    display: 'block',
+    width: '3vmin',
+    height: '3vmin',
+    borderRadius: '3vmin',
+    border: `0.3vmin solid ${theme.color}`,
+    margin: '0.5vmin',
+    transition: 'transform 250ms',
+    background: 'white',
+    zIndex: 2,
+  },
+
+  '&:checked:after': {
+    transform: `translateX(4vmin)`,
+  },
+
+  '&:checked:before': {
+    background: `rgba(0,255,0,0.4)`,
+  }
+
+});
+
 let App = React.createClass({
-  getInitialState: function () {
+  getDefaultProps: function () {
     return {
       strokeWidth: 1,
-      planetPadding: 20,
+      padding: 20,
+      showAxes: false,
+      longAxes: false,
+      planetOpacity: 1,
     };
   },
+  
+  getInitialState: function () {
+    return Object.assign({}, this.props);
+  },
+
+  componentWillUpdate: function (nextProps, nextState) {
+    page(`/?${qs.stringify(nextState)}`);
+  },
+
   render: function () {
     return (
       <div className={WRAPPER.className}>
@@ -89,16 +160,57 @@ let App = React.createClass({
             />
 
             <div className={LABEL.className}>
-              planet padding
+              spacing
             </div>
             <input type='range' className={RANGE.className}
               min={0}
               max={60}
               step={0.01}
-              value={this.state.planetPadding}
+              value={this.state.padding}
               onChange={(e) => {
                 this.setState({
-                  planetPadding: parseFloat(e.target.value),
+                  padding: parseFloat(e.target.value),
+                });
+              }}
+            />
+
+            <div className={LABEL.className}>
+              opacity
+            </div>
+            <input type='range' className={RANGE.className}
+              min={0}
+              max={1}
+              step={0.01}
+              value={this.state.planetOpacity}
+              onChange={(e) => {
+                this.setState({
+                  planetOpacity: parseFloat(e.target.value),
+                });
+              }}
+            />
+
+            <div className={LABEL.className}>
+              show axes
+            </div>
+
+            <input type='checkbox' className={CHECKBOX.className}
+              checked={this.state.showAxes}
+              onChange={(e) => {
+                this.setState({
+                  showAxes: e.target.checked,
+                });
+              }}
+            />
+
+            <div className={LABEL.className}>
+              bipoles
+            </div>
+
+            <input type='checkbox' className={CHECKBOX.className}
+              checked={this.state.longAxes}
+              onChange={(e) => {
+                this.setState({
+                  longAxes: e.target.checked,
                 });
               }}
             />
@@ -109,7 +221,7 @@ let App = React.createClass({
             height: '100%',
             strokeWidth: this.state.strokeWidth,
           }}
-            padding={this.state.planetPadding}
+            {...this.state}
           />
         </div>
 

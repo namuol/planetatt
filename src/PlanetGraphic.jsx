@@ -5,11 +5,17 @@ import Style from './Style';
 import theme from './theme';
 import planets from './planets';
 
+function rad (deg) {
+  return (deg/180) * Math.PI;
+}
+
 let STYLE = Style.registerStyle({
   display: 'flex',
-  // backgroundColor: '#edd8a3',
-  fill: 'none',
   stroke: theme.color,
+  strokeLinecap: 'round',
+});
+
+let AXIS = Style.registerStyle({
 });
 
 let widestPlanet = planets.reduce((result, planet) => {
@@ -23,12 +29,16 @@ let PlanetGraphic = React.createClass({
     return {
       padding: 20,
       strokeWidth: 1,
+      showAxes: false,
+      longAxes: false,
+      planetOpacity: 1,
     };
   },
   render: function () {
     let {
       padding,
     } = this.props;
+    padding = parseFloat(padding);
 
     let {
       strokeWidth
@@ -42,12 +52,30 @@ let PlanetGraphic = React.createClass({
       
       height += padding + radius + strokeWidth/2;
 
-      let result = <circle
-        key={planet.get('name')}
-        cx={50}
-        cy={height}
-        r={radius}
+      let axis = <polyline
+        className={AXIS.className}
+        style={{
+          opacity: this.props.showAxes ? 1 : 0,
+        }}
+        markerEnd='url(#triangle)'
+        points={`${0},${
+          this.props.longAxes ? -radius - padding*0.3 : 0
+        } ${0},${radius+padding*0.3}`}
       />;
+
+      let result = (
+        <g key={planet.get('name')}
+          transform={`translate(${50},${height}) rotate(${planet.get('axialTilt')})`}
+          style={{
+            fill: `rgba(255,255,255,${this.props.planetOpacity})`,
+          }}
+        >
+          {axis}
+          <circle
+            r={radius}
+          />
+        </g>
+      );
 
       height += radius + strokeWidth/2;
       return result;
