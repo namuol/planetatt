@@ -31,7 +31,8 @@ let PlanetGraphic = React.createClass({
       strokeWidth: 1,
       showAxes: false,
       longAxes: false,
-      planetOpacity: 1,
+      axesOverlayTransparency: 1,
+      axesRotation: 0,
     };
   },
   render: function () {
@@ -65,9 +66,9 @@ let PlanetGraphic = React.createClass({
 
       let result = (
         <g key={planet.get('name')}
-          transform={`translate(${50},${height}) rotate(${planet.get('axialTilt')})`}
+          transform={`translate(${50},${height}) rotate(${this.props.axesRotation + planet.get('axialTilt')})`}
           style={{
-            fill: `rgba(255,255,255,${this.props.planetOpacity})`,
+            fill: `rgba(255,255,255,${1-this.props.axesOverlayTransparency})`,
           }}
         >
           {axis}

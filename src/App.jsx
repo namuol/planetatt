@@ -11,7 +11,7 @@ import qs from 'qs';
 let WRAPPER = Style.registerStyle({
   width: '100vmin',
   height: '100vmin',
-  padding: '10vmin',
+  padding: '5vmin',
   margin: 'auto',
 });
 
@@ -31,7 +31,7 @@ let LABEL = Style.registerStyle({
 });
 
 let EDITOR = Style.registerStyle({
-  width: '50%',
+  width: '30%',
   height: '100%',
   display: 'flex',
   flexDirection: 'column',
@@ -127,7 +127,8 @@ let App = React.createClass({
       padding: 20,
       showAxes: false,
       longAxes: false,
-      planetOpacity: 1,
+      axesOverlayTransparency: 1,
+      axesRotation: 0,
     };
   },
   
@@ -175,22 +176,7 @@ let App = React.createClass({
             />
 
             <div className={LABEL.className}>
-              opacity
-            </div>
-            <input type='range' className={RANGE.className}
-              min={0}
-              max={1}
-              step={0.01}
-              value={this.state.planetOpacity}
-              onChange={(e) => {
-                this.setState({
-                  planetOpacity: parseFloat(e.target.value),
-                });
-              }}
-            />
-
-            <div className={LABEL.className}>
-              show axes
+              axes
             </div>
 
             <input type='checkbox' className={CHECKBOX.className}
@@ -202,11 +188,17 @@ let App = React.createClass({
               }}
             />
 
-            <div className={LABEL.className}>
+            <div className={LABEL.className} style={{
+              opacity: this.state.showAxes ? 1 : 0.5,
+            }}>
               bipoles
             </div>
 
             <input type='checkbox' className={CHECKBOX.className}
+              style={{
+                opacity: this.state.showAxes ? 1 : 0.5,
+              }}
+              disabled={this.state.showAxes ? false : 'disabled'}
               checked={this.state.longAxes}
               onChange={(e) => {
                 this.setState({
@@ -214,10 +206,52 @@ let App = React.createClass({
                 });
               }}
             />
+
+            <div className={LABEL.className} style={{
+              opacity: this.state.showAxes ? 1 : 0.5,
+            }}>
+              overlay
+            </div>
+            <input type='range' className={RANGE.className}
+              style={{
+                opacity: this.state.showAxes ? 1 : 0.5,
+              }}
+              disabled={this.state.showAxes ? false : 'disabled'}
+              min={0}
+              max={1}
+              step={0.01}
+              value={this.state.axesOverlayTransparency}
+              onChange={(e) => {
+                this.setState({
+                  axesOverlayTransparency: parseFloat(e.target.value),
+                });
+              }}
+            />
+
+            <div className={LABEL.className} style={{
+              opacity: this.state.showAxes ? 1 : 0.5,
+            }}>
+              rotation
+            </div>
+            <input type='range' className={RANGE.className}
+              style={{
+                opacity: this.state.showAxes ? 1 : 0.5,
+              }}
+              disabled={this.state.showAxes ? false : 'disabled'}
+              min={0}
+              max={360}
+              step={0.01}
+              value={this.state.axesRotation}
+              onChange={(e) => {
+                this.setState({
+                  axesRotation: parseFloat(e.target.value),
+                });
+              }}
+            />
           </div>
 
           <PlanetGraphic style={{
-            width: `50%`,
+            width: `70%`,
             height: '100%',
             strokeWidth: this.state.strokeWidth,
           }}
