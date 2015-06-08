@@ -31,18 +31,23 @@ let PlanetGraphic = React.createClass({
       strokeWidth: 1,
       showAxes: false,
       longAxes: false,
+      axesLength: 0.8,
       axesOverlayTransparency: 1,
       axesRotation: 0,
     };
   },
+
   render: function () {
     let {
       padding,
+      axesLength,
+      axesRotation,
+      axesOverlayTransparency,
     } = this.props;
     padding = parseFloat(padding);
 
     let {
-      strokeWidth
+      strokeWidth,
     } = this.props.style;
 
     let height = 0;
@@ -60,15 +65,15 @@ let PlanetGraphic = React.createClass({
         }}
         markerEnd='url(#triangle)'
         points={`${0},${
-          this.props.longAxes ? -radius - padding*0.3 : 0
-        } ${0},${radius+padding*0.3}`}
+          this.props.longAxes ? -radius - padding*0.5*axesLength : 0
+        } ${0},${radius+padding*0.5*axesLength}`}
       />;
 
       let result = (
         <g key={planet.get('name')}
-          transform={`translate(${50},${height}) rotate(${this.props.axesRotation + planet.get('axialTilt')})`}
+          transform={`translate(${50},${height}) rotate(${axesRotation + planet.get('axialTilt')})`}
           style={{
-            fill: `rgba(255,255,255,${1-this.props.axesOverlayTransparency})`,
+            fill: `rgba(255,255,255,${1-axesOverlayTransparency})`,
           }}
         >
           {axis}
