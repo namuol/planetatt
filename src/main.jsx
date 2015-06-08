@@ -11,6 +11,8 @@ window.qs = qs;
 window.addEventListener('load', () => {
   let initialized = false;
 
+  page.base(process.env.BASEPATH);
+
   page('*', (ctx, next) => {
     if (initialized) {
       return;
