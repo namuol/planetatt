@@ -50,7 +50,7 @@ let PlanetGraphic = React.createClass({
       strokeWidth,
     } = this.props.style;
 
-    let height = 0;
+    let height = Math.max(padding, axesLength);
     let circles = planets.filter((planet) => {
       return planet.get('number');
     }).map((planet) => {
@@ -65,8 +65,8 @@ let PlanetGraphic = React.createClass({
         }}
         markerEnd='url(#triangle)'
         points={`${0},${
-          this.props.longAxes ? -radius - padding*0.5*axesLength : 0
-        } ${0},${radius+padding*0.5*axesLength}`}
+          this.props.longAxes ? -radius - axesLength : 0
+        } ${0},${radius + axesLength}`}
       />;
 
       let result = (
@@ -87,7 +87,7 @@ let PlanetGraphic = React.createClass({
       return result;
     });
 
-    height += padding;
+    height += Math.max(padding, axesLength);
     
     return (
       <svg viewBox={`0 0 100 ${height}`} className={STYLE.className} {...this.props}>

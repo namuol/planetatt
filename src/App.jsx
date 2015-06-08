@@ -218,8 +218,8 @@ let App = React.createClass({
                 opacity: this.state.showAxes ? 1 : 0.5,
               }}
               disabled={this.state.showAxes ? false : 'disabled'}
-              min={-2}
-              max={4}
+              min={0}
+              max={20}
               step={0.01}
               value={this.state.axesLength}
               onChange={(e) => {
