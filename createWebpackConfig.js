@@ -19,7 +19,7 @@ module.exports = function createWebpackConfig (params) {
       entry
     ] : entry,
     output: {
-      path: join(__dirname, 'dist'),
+      path: join(__dirname),
       filename: 'bundle.js',
       publicPath: '',
     },
