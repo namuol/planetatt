@@ -22,8 +22,6 @@ let widestPlanet = planets.reduce((result, planet) => {
   return planet.get('diameter') > result.get('diameter') ? planet : result;
 }, Immutable.fromJS({diameter: 0}));
 
-console.log('Widest planet: ', widestPlanet.toJS());
-
 let PlanetGraphic = React.createClass({
   getDefaultProps: function () {
     return {
@@ -50,7 +48,7 @@ let PlanetGraphic = React.createClass({
       strokeWidth,
     } = this.props.style;
 
-    let height = Math.max(padding, axesLength);
+    let height = Math.max(padding, axesLength) + strokeWidth;
     let circles = planets.filter((planet) => {
       return planet.get('number');
     }).map((planet) => {
@@ -87,7 +85,7 @@ let PlanetGraphic = React.createClass({
       return result;
     });
 
-    height += Math.max(padding, axesLength);
+    height += Math.max(padding, axesLength) + strokeWidth;
     
     return (
       <svg viewBox={`0 0 100 ${height}`} className={STYLE.className} {...this.props}>
